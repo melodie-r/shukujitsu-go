@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"golang.org/x/text/encoding/japanese"
 	"golang.org/x/text/transform"
@@ -15,8 +17,10 @@ import (
 // import 省略...
 // Entry は祝日1日分の情報を保持する構造体です。
 type Entry struct {
-	YMD  string
-	Name string
+	Year  int
+	Month int
+	Day   int
+	Name  string
 }
 
 const csvURL = "https://www8.cao.go.jp/chosei/shukujitsu/syukujitsu.csv"
@@ -44,7 +48,22 @@ func AllEntries() ([]Entry, error) {
 		if len(row) != 2 {
 			return nil, fmt.Errorf("想定外のデータに遭遇しました: 行 %d = %v", i+1, row)
 		}
-		entries = append(entries, Entry{YMD: row[0], Name: row[1]})
+		//entries = append(entries, Entry{YMD: row[0], Name: row[1]})
+		ymd := strings.Split(row[0], "/")
+		year, month, day := ymd[0], ymd[1], ymd[2]
+		year_int, err := strconv.Atoi(year)
+		if err != nil {
+			panic(err)
+		}
+		month_int, err := strconv.Atoi(month)
+		if err != nil {
+			panic(err)
+		}
+		day_int, err := strconv.Atoi(day)
+		if err != nil {
+			panic(err)
+		}
+		entries = append(entries, Entry{Year: year_int, Month: month_int, Day: day_int, Name: row[1]})
 	}
 	return entries, nil
 }
