@@ -17,6 +17,7 @@ import (
 // import 省略...
 // Entry は祝日1日分の情報を保持する構造体です。
 type Entry struct {
+	YMD   string
 	Year  int
 	Month int
 	Day   int
@@ -63,7 +64,7 @@ func AllEntries() ([]Entry, error) {
 		if err != nil {
 			panic(err)
 		}
-		entries = append(entries, Entry{Year: year_int, Month: month_int, Day: day_int, Name: row[1]})
+		entries = append(entries, Entry{YMD: row[0], Year: year_int, Month: month_int, Day: day_int, Name: row[1]})
 	}
 	return entries, nil
 }

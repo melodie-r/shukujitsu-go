@@ -14,5 +14,6 @@ func main() {
 	}
 	for _, e := range entries {
 		fmt.Printf("%d/%d/%d = %s\n", e.Year, e.Month, e.Day, e.Name)
+		fmt.Printf("%s \n", e.YMD) // test
 	}
 }
